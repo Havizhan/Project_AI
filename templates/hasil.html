@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hasil Prediksi Semua Kecamatan - Kabupaten Semarang</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+        }
+        .header {
+            background-color: #28a745;
+            color: white;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+        }
+        .card {
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        .card-header {
+            background-color: #28a745;
+            color: white;
+            border-radius: 10px 10px 0 0 !important;
+            font-weight: bold;
+        }
+        .footer {
+            background-color: #343a40;
+            color: white;
+            padding: 1rem 0;
+            margin-top: 2rem;
+        }
+        .table-success {
+            background-color: #d4edda;
+        }
+        .graph-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header class="header text-center">
+        <div class="container">
+            <h1>Hasil Prediksi Hasil Panen Padi</h1>
+            <h3>Kabupaten Semarang</h3>
+            <p>Menggunakan Metode Fuzzy Tsukamoto</p>
+        </div>
+    </header>
+
+    <div class="container mb-5">
+        <div class="row">
+            <div class="col-12 mb-4">
+                <div class="card">
+                    <div class="card-header">
+                        Grafik Perbandingan Hasil Panen Prediksi dan Aktual
+                    </div>
+                    <div class="card-body">
+                        <div class="graph-container">
+                            <img src="data:image/png;base64,{{ graph_url }}" alt="Grafik Perbandingan Hasil Panen" class="img-fluid">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-12 mb-4">
+                <div class="card">
+                    <div class="card-header">
+                        Grafik Akurasi Prediksi per Kecamatan
+                    </div>
+                    <div class="card-body">
+                        <div class="graph-container">
+                            <img src="data:image/png;base64,{{ graph_url2 }}" alt="Grafik Akurasi Prediksi" class="img-fluid">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        Tabel Hasil Prediksi
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="hasilTable" class="table table-striped table-hover">
+                                <thead class="table-success">
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Kecamatan</th>
+                                        <th>Prediksi (ton)</th>
+                                        <th>Aktual (ton)</th>
+                                        <th>Akurasi (%)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for kec in kecamatan.keys() %}
+                                    <tr>
+                                        <td>{{ loop.index }}</td>
+                                        <td>{{ kec }}</td>
+                                        <td>{{ hasil_prediksi[kec] }}</td>
+                                        <td>{{ hasil_aktual[kec] }}</td>
+                                        <td>{{ akurasi[kec] }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        Data Kecamatan
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="dataTable" class="table table-striped table-hover">
+                                <thead class="table-success">
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Kecamatan</th>
+                                        <th>Luas Lahan (ha)</th>
+                                        <th>Curah Hujan (mm)</th>
+                                        <th>Tinggi Wilayah (mdpl)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for kec, data in kecamatan.items() %}
+                                    <tr>
+                                        <td>{{ loop.index }}</td>
+                                        <td>{{ kec }}</td>
+                                        <td>{{ data.luas_lahan }}</td>
+                                        <td>{{ data.curah_hujan }}</td>
+                                        <td>{{ data.tinggi_wilayah }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-12 mt-4 text-center">
+                <a href="/" class="btn btn-success">Kembali ke Halaman Utama</a>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer text-center">
+        <div class="container">
+            <p>Sistem Prediksi Hasil Panen Padi - Kabupaten Semarang &copy; 2023</p>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#hasilTable').DataTable({
+                "order": [[4, "desc"]],
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.11.5/i18n/id.json"
+                }
+            });
+            
+            $('#dataTable').DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.11.5/i18n/id.json"
+                }
+            });
+        });
+    </script>
+</body>
+</html> 
