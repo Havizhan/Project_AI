@@ -35,7 +35,9 @@ Aplikasi ini mengimplementasikan metode Fuzzy Tsukamoto untuk memprediksi hasil 
 
 ## Cara Penggunaan
 
-1. Jalankan aplikasi dengan perintah:
+### Menjalankan Aplikasi Flask
+
+1. Setelah mengaktifkan virtual environment, jalankan aplikasi Flask dengan perintah:
    ```
    python app.py
    ```
@@ -44,13 +46,47 @@ Aplikasi ini mengimplementasikan metode Fuzzy Tsukamoto untuk memprediksi hasil 
    - Memasukkan nilai luas lahan, curah hujan, dan tinggi wilayah secara manual
    - Memilih kecamatan dari dropdown untuk melihat prediksi berdasarkan data kecamatan
    - Melihat prediksi untuk semua kecamatan di Kabupaten Semarang
+   - Menganalisis tren hasil panen padi dari tahun 2020-2022
+
+### Menjalankan Aplikasi Streamlit (Direkomendasikan)
+
+1. Setelah mengaktifkan virtual environment, jalankan aplikasi Streamlit dengan perintah:
+   ```
+   streamlit run app_streamlit.py
+   ```
+2. Browser akan otomatis terbuka dengan aplikasi Streamlit di alamat `http://localhost:8501`
+3. Fitur aplikasi Streamlit:
+   - Visualisasi data yang lebih interaktif
+   - Tampilan yang lebih modern dan user-friendly
+   - Analisis tren hasil panen dari tahun 2020-2022
+   - Prediksi untuk semua kecamatan dengan tampilan grafik
+   - Perbandingan hasil aktual dan prediksi
+
+### Troubleshooting
+
+Jika mengalami masalah saat menjalankan aplikasi:
+
+1. Pastikan virtual environment sudah diaktifkan
+2. Pastikan semua dependensi terinstal dengan benar:
+   ```
+   pip install -r requirements.txt
+   ```
+3. Jika ada masalah dengan Flask, coba instal Flask secara manual:
+   ```
+   pip install flask==2.2.3
+   ```
+4. Jika ada masalah dengan Streamlit, coba instal Streamlit secara manual:
+   ```
+   pip install streamlit==1.28.0
+   ```
 
 ## Struktur Aplikasi
 
 - `app.py` - File utama aplikasi Flask
+- `app_streamlit.py` - File utama aplikasi Streamlit
 - `fuzzy_tsukamoto.py` - Implementasi metode Fuzzy Tsukamoto
 - `data_kecamatan.py` - Data kecamatan di Kabupaten Semarang
-- `templates/` - Folder berisi template HTML
+- `templates/` - Folder berisi template HTML untuk aplikasi Flask
   - `index.html` - Halaman utama aplikasi
   - `hasil.html` - Halaman hasil prediksi semua kecamatan
 - `requirements.txt` - Daftar dependensi aplikasi
